@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>camera three</title>
+	<script type="text/javascript" src="js/three.js"></script>
+</head>
+<body>
+	<canvas id="mainCanvas" width="400px" height="300px" ></canvas>
+	<script type="text/javascript">
+		window.onload=init
+
+		function init(){
+			var cvs=document.getElementById('mainCanvas'),pstX=4,pstY=-3,pstZ=5
+			var renderer = new THREE.WebGLRenderer({
+				canvas: cvs
+			});
+			renderer.setClearColor(0x000000);
+			var scene = new THREE.Scene();
+			cvs.addEventListener('mousedown', function(e) {
+				// console.log('cvs',this)
+				e = e || window.event
+				// var prevX = e.clientX,
+					// prevY = e.clientY
+				this.onmousemove = function(e) {
+					e = e || window.event
+					// var crrtX = e.clientX,
+					// 	crrtY = e.clientY
+					// var deltaX=crrtX-prevX,deltaY=crrtY-prevY
+					// console.log('delta',deltaX,deltaY)
+					// pstX-=deltaX/1000
+					// pstY-=deltaY/1000
+					// pstZ-=deltaX/1000
+					// camera.position.set(pstX,pstY,pstZ)
+					// renderer.render(scene, camera);
+						// console.log('e',e)
+						// console.log('xxx',xxx)
+					this.onmouseup = function() {
+						this.onmousemove = null
+					}
+				}
+			}, false)
+			var camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
+			// var camera = new THREE.OrthographicCamera(-1, 1, 1.5, -1.5, 1, 10);
+			camera.position.set(1, 0, 5);
+			scene.add(camera);
+
+			var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1),
+				new THREE.MeshBasicMaterial({
+					color: 0xff0000
+					,
+					wireframe: true
+				})
+				);
+			scene.add(cube);
+			camera.position.set(pstX,pstY,pstZ);
+			camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+			renderer.render(scene, camera);
+		}
+	</script>
+</body>
+</html>
