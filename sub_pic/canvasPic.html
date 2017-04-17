@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sub compose</title>
+	<meta charset="utf-8">
+</head>
+<body>
+<a href="http://html2canvas.hertzen.com/build/html2canvas.js" download="">canvas2</a>
+<p>要使用的视频：</p>
+
+<!-- <video id="video1" controls width="270" autoplay> -->
+  <!-- <source src="/example/html5/mov_bbb.mp4" type='video/mp4'> -->
+  <!-- <source src="/example/html5/mov_bbb.ogg" type='video/ogg'> -->
+  <!-- <source src="/example/html5/mov_bbb.webm" type='video/webm'> -->
+  <!-- <source src="http://player.youku.com/embed/XNTIwNTQxODg0" type=""> -->
+<!-- </video> -->
+
+<p>画布（每 20 毫秒，代码就会绘制视频的当前帧）：</p>
+<button id='getFrame'>get</button>
+<canvas id="myCanvas" width="270" height="135" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<iframe height=498 width=510 src='http://player.youku.com/embed/XNTIwNTQxODg0' frameborder=0 'allowfullscreen'></iframe>
+
+
+<script>
+var getFrame=document.querySelector('#getFrame')
+var v=document.getElementById("video1");
+var c=document.getElementById("myCanvas");
+ctx=c.getContext('2d');
+
+getFrame.onclick=function(){
+	console.log('click')
+	ctx.drawImage(v,0,0,270,135)
+}
+
+// v.addEventListener('play', function() {var i=window.setInterval(function() {ctx.drawImage(v,0,0,270,135)},20);},false);
+// v.addEventListener('pause',function() {window.clearInterval(i);},false);
+// v.addEventListener('ended',function() {clearInterval(i);},false);  
+
+</script>
+
+</body>
+</html>

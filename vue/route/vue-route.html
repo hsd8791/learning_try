@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>route</title>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<meta charset="utf-8">
+</head>
+<style type="text/css">
+	.router-link-active {
+		color: red;
+	}
+	.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
+
+</style>
+<body>
+
+	<div id="app">
+		<!-- <h1>Hello App!</h1> -->
+		<p>
+			<!-- use router-link component for navigation. -->
+			<!-- specify the link by passing the `to` prop. -->
+			<!-- <router-link> will be rendered as an `<a>` tag by default -->
+			<router-link :to="{name:'foo',params: { userId: 123 }}" >Go to Foo</router-link>
+			<router-link :to="{name:'foo simple'}" >Go to Foo simple</router-link>
+			<!-- <router-link to="/b/userId=345" >Go to B Foo</router-link> -->
+			<router-link :to="{name:'foo',params: { userId: 234 }}" >Go to B Foo</router-link>
+			<!-- <a href="#/foo">Go to Foo</a> -->
+			<router-link to="/bar/hsd">Go to Bar</router-link>
+			<router-link to="/user/hsd/post/111">Go to post</router-link>
+			<router-link to="/user/hsd/111">Go to post2</router-link>
+			<!-- <router-link :to="{ path: 'jjsajdis', params: { userId: 123 }}">User</router-link> -->
+		</p>
+		
+		<hr>
+		<!-- <div class="nested"> -->
+		<router-link to="/users/foo">/users/foo</router-link>
+		<router-link to="/users/foo/profile">/users/foo/profile</router-link>
+		<router-link to="/users/foo/posts">/users/foo/posts</router-link>
+		<router-link to="/users/dame/posts">/users/dame/posts</router-link>
+		<!-- </div> -->
+		<router-view></router-view>
+		<transition :name="fade">
+			<router-view name='a'></router-view>
+		</transition>
+	</div>
+	<div id="flag">
+		<button v-on:click='changeFlag'>change</button>
+		<div>{{flag}}</div>
+	</div>
+	
+	<script type="text/javascript">
+	// 0. If using a module system, call Vue.use(VueRouter)
+
+	// 1. Define route components.
+	// These can be imported from other files
+	const Foo = {
+		template: ` <transition name="slide">
+		<div class="foo">我是一个有洞画的fool</div>
+	</transition>`
+}
+const Foo_simple = {
+	template: '<div>foo Foo_simple</div>'
+}
+const Bar = {
+	template: '<div>bar  {{ $route.params.name }}</div>'
+}
+const Post = {
+	template: '<div>post  {{ $route.params.username }}  {{$route.params.post_id}}</div>',
+	watch: {
+		'$route' (to, from) {
+			console.log(to)
+			console.log(from)
+
+		}
+	}
+}
+
+const User = {
+	template: `
+	<div class="user">
+		<h2>User {{ $route.params.id }}</h2>
+		<router-view></router-view>
+	</div>
+	`
+}
+const UserHome = {
+	template: '<div>Home</div>'
+}
+const UserProfile = {
+	template: '<div>Profile</div>'
+}
+const UserPosts = {
+	template: '<div>Posts</div>'
+}
+
+	// 2. Define some routes
+	// Each route should map to a component. The "component" can
+	// either be an actual component constructor created via
+	// Vue.extend(), or just a component options object.
+	// We'll talk about nested routes later.
+	const routes = [
+	{
+		path: '/foo/:userId',
+		name:'foo',
+		components: {
+			default:Foo
+			,a:Bar
+		},
+		alias: '/b/:userId'
+	},
+	{
+		path: '/bar/:name',
+		component: Bar
+	},
+	{
+		path:'/user/:username/post/:post_id',
+		component: Post
+	},	
+	{
+		path:'/foo_simple',
+		component: Foo_simple,
+		name:'foo simple',
+		// beforeEnter:function(to,from,next){
+		// 	console.log(app_flag.data.flag)
+		// 	if(app_flag.data.flag){
+		// 		next()
+		// 	}
+		// }
+		beforeEnter: (to, from, next) => {
+			// console.log('enter foo simple')
+			// // console.log('app_flag inner',to.matched)
+			// // console.log(app_flag._data)
+			// if(app_flag._data.flag)
+			next()
+
+		}
+		
+	},
+	{
+		path:'/user/:username/:post_id',
+		component: Post
+	},
+	{
+		path: '/users/:id',
+		component: User,
+		children: [
+			// UserHome will be rendered inside User's <router-view>
+			// when /user/:id is matched
+			{
+				path: '',
+				component: UserHome,
+				meta: {
+					requiresAuth: true
+				}
+			},
+
+			// UserProfile will be rendered inside User's <router-view>
+			// when /user/:id/profile is matched
+			{
+				path: 'profile',
+				component: UserProfile
+			},
+
+			// UserPosts will be rendered inside User's <router-view>
+			// when /user/:id/posts is matched
+			{
+				path: 'posts',
+				component: UserPosts
+			}
+			]
+		}]
+
+	// 3. Create the router instance and pass the `routes` option
+	// You can pass in additional options here, but let's
+	// keep it simple for now.
+	const router = new VueRouter({
+		// mode:'history',
+		routes:routes
+	})
+	// router.push(
+	// 		{
+	// 	path: 'foo'
+	// }
+	// )
+	// console.log(router.push)
+	// console.log(router)
+	// router.push()
+	// 4. Create and mount the root instance.
+	// Make sure to inject the router with the router option to make the
+	// whole app router-aware.
+	const app = new Vue({
+		router,
+		watch: {
+			'$route' (to, from) {
+				const toDepth = to.path.split('/').length
+				const fromDepth = from.path.split('/').length
+				this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+			}
+		}
+		// ,
+		// el:'#app'
+	}).$mount('#app')
+	router.beforeEach((to,from,next)=>{  //控制 是否 进行 路由
+		console.log('to:',to,to.matched)
+		// console.log('from:',from)
+		// console.log('app_flag out',app_flag,app_flag.data)
+		if(app_flag._data.flag){
+			next()
+		}
+	})
+	// var flag=0,eFlag=document.querySelector('#flag')
+	// eFlag.onclick=function(){
+	// 	flag=!flag
+	// }
+	var app_flag=new Vue({
+		el:'#flag',
+		data:{
+			flag:0
+		},
+		methods:{
+			changeFlag:function(){
+				this.flag=!this.flag
+			}
+		}
+	})
+	// Now the app has started!
+</script>
+</body>
+</html>
