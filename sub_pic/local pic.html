@@ -23,6 +23,8 @@ function getFileUrl(sourceId) {
 		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
 	} else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome 
 		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0))
+	}else {
+		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0))
 	}
 	return url;
 }
