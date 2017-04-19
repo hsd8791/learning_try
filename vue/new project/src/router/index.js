@@ -6,7 +6,7 @@ import Test from '../components/test'
 import Test2 from '../components/test2'
 
 Vue.use(VueRouter)
-console.log('Hello', Hello)
+	// console.log('Hello', Hello)
 
 export default new VueRouter({
 	routes: [{

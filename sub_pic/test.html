@@ -41,10 +41,16 @@
 		.details input{
 			width: 40px;
 		}
+		.details input[type='file']{
+			width: 240px;
+		}
 	</style>
 </head>
 <body id='app'>
 	<form class="details">
+		<label for='upload'>上传图片：</label>
+		<input type="file" id="imgUpload" name='upload' v-on:change='handleUpload'>
+
 		<label for='qty'>数量：</label>
 		<input type="text" id="num" name='qty' v-model='picQty'>
 		<label for='img_height'>首图高度：</label>
@@ -66,7 +72,6 @@
 			data:{
 				format:'png',
 				imgs:[
-				{index:4,format:'png'},
 				{index:3,format:'png'},
 				{index:2,format:'png'},
 				{index:1,format:'png'}
@@ -91,6 +96,9 @@
 					for(let i=0;i<l;i++){
 						imgBoxes[i].style.bottom=subHeight*(i)+'px'
 					}
+				},
+				handleUpload:function(){
+					getFileUrl('imgUpload')
 				}
 			}
 		})
@@ -140,6 +148,22 @@
 		console.log('appVue',appVue)
 		appVue.setPst()
 
+		function getFileUrl(sourceId) {
+			var urls;
+			// if (navigator.userAgent.indexOf("MSIE") >= 1) {  
+			// 	urls = document.getElementById(sourceId).value;
+			// } else 
+			// 
+			if (navigator.userAgent.indexOf("Firefox") > 0) {  
+				urls = window.URL.createObjectURL(document.getElementById(sourceId).files);
+			} else if (navigator.userAgent.indexOf("Chrome") > 0) {  
+				urls = window.URL.createObjectURL(document.getElementById(sourceId).files)
+			}else{
+				urls = window.URL.createObjectURL(document.getElementById(sourceId).files)
+			}
+			console.log('urls',urls)
+			return urls;
+		}
 	</script>
 </body>
 </html>

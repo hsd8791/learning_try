@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mutiple pic upload</title>
+	<meta charset="utf-8">	
+</head>
+<body>
+<img src="" alt="" id="img1">
+	<div class="container">  
+		<label>请选择一个图像文件：</label>  
+		<input type="file" id="file_input" multiple/>  
+	</div>  
+	<script type="text/javascript">
+		document.querySelector('#file_input').onchange=function(){
+			console.log('this',this)
+			console.log('file',this.files)
+			console.log('file',window.URL.createObjectURL(document.getElementById('file_input').files[0]))
+			document.querySelector('#img1').src=window.URL.createObjectURL(document.getElementById('file_input').files[0])
+		}
+	</script>
+</body>
+</html>

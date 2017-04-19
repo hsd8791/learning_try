@@ -1,17 +1,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
 <html> 
 <head> 
-<title>转至 C:\xampp\htdocs\test</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-
+	<title>local pic test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	<meta name='viewport' content="initial-scale=1 maximum-scale=1 user-scalable=no width=device-width">
 </head> 
 <body> 
-<h1>转至 C:\xampp\htdocs\test</h1>
-<form action=""> 
-<input type="file" name="imgOne" id="imgOne" /> 
-<img id="imgPre" src="" width="300px" style="" /> 
-</form> 
-<script type="text/javascript"> 
+	<h1>转至 C:\xampp\htdocs\test</h1>
+	<form action=""> 
+		<input type="file" name="imgOne" id="imgOne" multiple /> 
+		<img id="imgPre" src="" width="300px" style="" /> 
+	</form> 
+	<script type="text/javascript"> 
 /** 
 * 从 file 域获取 本地图片 url 
 */ 
@@ -23,22 +23,29 @@ function getFileUrl(sourceId) {
 		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
 	} else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome 
 		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0))
+	}else{
+		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0))
 	}
+	console.log('files',document.getElementById(sourceId).files)
 	return url;
 }
 
 /** 
  * 将本地图片 显示到浏览器上 
  */
-function preImg(sourceId, targetId) {
-	var url = getFileUrl(sourceId);
-	var imgPre = document.getElementById(targetId);
-	imgPre.src = url;
+ function preImg(sourceId, targetId) {
+ 	var url = getFileUrl(sourceId);
+ 	alert('pic add:'+url)
+ 	var imgPre = document.getElementById(targetId);
+ 	imgPre.src = url;
+	// alert(imgPre.src)
 }
 
 var ImgOne = document.querySelector('#imgOne')
 console.log('ImgOne',ImgOne)
 ImgOne.onchange = function() {
+	// alert(this.id)
+	// console.log('remote',this.id)
 	preImg(this.id, 'imgPre')
 }
 </script> 
