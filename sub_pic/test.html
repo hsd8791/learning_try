@@ -25,7 +25,21 @@
 			bottom: 0;
 			overflow: hidden;
 		}
-		
+		.thumb-box{
+			height: 50px;
+		}
+		.thumb-box-m{
+			height: 100px;
+		}
+		.thumb-box-s{
+			height: 50px;
+		}
+		.thumb-box-l{
+			height: 150px;
+		}
+		.thumb-img{
+			height: 100%;
+		}
 		.container{
 			width: 100%;
 			height: 400px;
@@ -41,29 +55,38 @@
 		.details input{
 			width: 40px;
 		}
-		.details input[type='file']{
+
+		.details input[type="file"]{
 			width: 240px;
 		}
 	</style>
 </head>
 <body id='app'>
 	<form class="details">
-		<label for='upload'>上传图片：</label>
-		<input type="file" id="imgUpload" name='upload' v-on:change='handleUpload'>
-
+		<label for='imgUpload'>批量上传：</label>
+		<input type="file" id="imgUpload" multiple name='imgUpload' v-on:change='handlerUpload'>
 		<label for='qty'>数量：</label>
-		<input type="text" id="num" name='qty' v-model='picQty'>
+		<input type="text" id="" name='qty' v-model='picQty'>
 		<label for='img_height'>首图高度：</label>
-		<input type="text" id="num" name='img_height' v-model='imgHeight'>
+		<input type="text" id="" name='img_height' v-model='imgHeight'>
 		<label for='cut_height'>底部剪裁：</label>
-		<input type="text" id="num" name='cut_height' v-model='subCut'>
+		<input type="text" id="" name='cut_height' v-model='subCut'>
 		<label for='height'>字幕高度:</label>
-		<input type="text" id="num" name='height' v-model='subHeight'>
+		<input type="text" id="" name='height' v-model='subHeight'>
 	</form>
-	<p>  111</p>
-	<div class="container">
+	<!-- <div class="container">
 		<div class="img-box" v-for='img in imgs'>
 			<img v-bind:src="'./img/'+img.index+'.png'" alt="" class="img">
+		</div>
+	</div> -->
+	<div class="container">
+		<div class="img-box" v-for='pic in pics'>
+			<img v-bind:src="pic.src" alt="" class="img">
+		</div>
+	</div>
+	<div class="thumb-container">
+		<div class="thumb-box-m" v-for='pic in pics'>
+			<img v-bind:src="pic.src" alt="" class="thumb-img">
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -76,10 +99,12 @@
 				{index:2,format:'png'},
 				{index:1,format:'png'}
 				],
+				pics:['111'],
 				imgHeight:300,
 				subCut:25,
 				subHeight:35,
-				picQty:4
+				picQty:4,
+				thumbHeight:50
 			},
 			methods:{
 				setPst:function(){
@@ -92,13 +117,24 @@
 					,subHeight=this._data.subHeight
 					,subCut=this._data.subCut
 					,imgHeight=this._data.imgHeight
-					container.style.height=imgHeight+(l-1)*(subHeight)-subCut+'px'
+					container.style.height=imgHeight*1+(l-1)*(subHeight)-subCut*1+'px'
 					for(let i=0;i<l;i++){
 						imgBoxes[i].style.bottom=subHeight*(i)+'px'
 					}
+					console.log('imgBoxes',imgBoxes);
 				},
-				handleUpload:function(){
-					getFileUrl('imgUpload')
+				handlerUpload:function () {
+					var self_=this
+					var urls=getFileUrl('imgUpload')
+					this._data.pics=[]
+					for(let i=0;i<urls.length;i++){
+						this._data.pics.push({src:urls[i]})
+					}
+					// console.log('pics',this._data.pics)
+					// console.log('setpst',this.setPst)
+					setTimeout(function() {
+						self_.setPst()
+					}, 10);
 				}
 			}
 		})
@@ -134,35 +170,47 @@
 		})
 		appVue.$watch('subCut',function(newVal,oldVal){	
 			// this.setPst()
-			var imgs=document.querySelector('.container')
-			.querySelectorAll('img'),
+			var container=document.querySelector('.container')
+			var imgs=container.querySelectorAll('img'),
 			self_=this
+			container.style.height=self_._data.imgHeight*1+(l-1)*
+			(self_._data.subHeight)-self_._data.subCut*1+'px'
 			console.log('imgs',imgs)
 			// for(let i=0;i<imgs.length;i++){
 			// 	imgs[i]
 			// }
+			setPst.
 			imgs.forEach(function(item){
 				item.style.bottom=-self_._data.subCut+'px'
 			})
 		})
 		console.log('appVue',appVue)
 		appVue.setPst()
-
 		function getFileUrl(sourceId) {
-			var urls;
+			var urls=[];
 			// if (navigator.userAgent.indexOf("MSIE") >= 1) {  
-			// 	urls = document.getElementById(sourceId).value;
+			// 	url = document.getElementById(sourceId).value;
 			// } else 
-			// 
-			if (navigator.userAgent.indexOf("Firefox") > 0) {  
-				urls = window.URL.createObjectURL(document.getElementById(sourceId).files);
-			} else if (navigator.userAgent.indexOf("Chrome") > 0) {  
-				urls = window.URL.createObjectURL(document.getElementById(sourceId).files)
-			}else{
-				urls = window.URL.createObjectURL(document.getElementById(sourceId).files)
-			}
-			console.log('urls',urls)
+
+
+			var files=document.getElementById(sourceId).files
+			// if (navigator.userAgent.indexOf("Firefox") > 0) {  
+			// 	urls = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+			// } else if (navigator.userAgent.indexOf("Chrome") > 0) {  
+			// 	urls = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0))
+			// }else {
+			// 	urls = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0))
+
+			// }
+			createURL(urls,files)
+			console.log('urls',urls);
 			return urls;
+		}
+		function createURL(urls,files) {
+			var l=files.length
+			for(let i=0;i<l;i++){
+				urls.push(window.URL.createObjectURL(files[i]))
+			}
 		}
 	</script>
 </body>

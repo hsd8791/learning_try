@@ -7,6 +7,7 @@
 <body>
 	<canvas id="mainCanvas" width="400px" height="300px" ></canvas>
 	<script type="text/javascript">
+
 		window.onload=init
 		function calcX(deg, pstY, r) {
 			return (Math.sin(Math.PI * deg / 180).toFixed(5) *
@@ -25,10 +26,12 @@
 			var cvs=document.getElementById('mainCanvas'),pstY=0,R=5
 			var angleSita=45,angleBeta=90,pstY=calcY(angleBeta,R),pstX=calcX(angleSita,pstY,R),pstZ=calcZ(angleSita,pstY,R)
 			console.log('origin pst',pstX,pstY,pstZ)
+
 			var renderer = new THREE.WebGLRenderer({
 				canvas: cvs
 			});
 			renderer.setClearColor(0x000000);
+
 			var scene = new THREE.Scene();
 			cvs.addEventListener('mousedown', function(e) {
 				// console.log('cvs',this)
@@ -66,18 +69,19 @@
 							this.onmousemove = null
 						}
 					}
+
 				}, false)
 
-			//ortho
-			var camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
-			// var camera = new THREE.OrthographicCamera(-1, 1, 1.5, -1.5, 1, 10);
-			camera.position.set(1, 0, 5);
-			scene.add(camera);
-
-			// //perspective 
-			// var camera = new THREE.PerspectiveCamera(45, 400 / 300, 1, 10);
-			// camera.position.set(0, 0, 5);
+			// orthographic
+			// var camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
+			// // var camera = new THREE.OrthographicCamera(-1, 1, 1.5, -1.5, 1, 10);
+			// camera.position.set(1, 0, 5);
 			// scene.add(camera);
+
+			//perspective
+			var camera = new THREE.PerspectiveCamera(45, 400 / 300, 1, 10);
+			camera.position.set(0, 0, 5);
+			scene.add(camera);
 
 			var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1),
 				new THREE.MeshBasicMaterial({
@@ -89,8 +93,7 @@
 			scene.add(cube);
 			camera.position.set(pstX,pstY,pstZ);
 			camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-			renderer.render(scene, camera);
+			renderer.render(scene, camera)
 		}
 	</script>
 </body>
