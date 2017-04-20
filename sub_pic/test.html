@@ -28,7 +28,19 @@
 			overflow: hidden;
 		}
 		.thumb-box{
-			height: 50px;
+			
+		}
+		/*.thumb-container div*/
+		.thumb-container > div>span{
+			background: rgba(64,64,64,0.8);
+		}
+		.thumb-container > div>span.disable{
+			/*color:;*/
+			opacity: 0.2;
+			pointer-events: none;
+		}
+		.thumb-container > div>span:hover{
+			cursor: pointer;
 		}
 		.thumb-box-m{
 			height: 100px;
@@ -71,21 +83,19 @@
 </head>
 <body id='app'>
 	<form class="details">
-	<br>
-		<label for='imgUpload'>批量上传：</label>
+		<br>
+		<label for='imgUpload'>{{uploadMsg}}:</label>
 		<input type="file" id="imgUpload" multiple name='imgUpload' v-on:change='handlerUpload'>
-	<!-- 	<label for='qty'>数量：</label>
-	<input type="text" id="" name='qty' v-model='picQty'> -->
-	<br>
-	<label for='img_height'>首图高度：</label>
-	<input type="num" id="" name='img_height' v-model='imgHeight'>
-	<br>
-	<label for='cut_height'>底部剪裁：</label>
-	<input type="num" id="" name='cut_height' v-model='subCut'>
-	<br>
-	<label for='height'>字幕高度:</label>
-	<input type="num" id="" name='height' v-model='subHeight' v-on:click=" decrease">
-</form>
+		<br>
+		<label for='img_height'>首图高度：</label>
+		<input type="num" id="" name='img_height' v-model='imgHeight'>
+		<br>
+		<label for='cut_height'>底部剪裁：</label>
+		<input type="num" id="" name='cut_height' v-model='subCut'>
+		<br>
+		<label for='height'>字幕高度:</label>
+		<input type="num" id="" name='height' v-model='subHeight' v-on:click=" decrease">
+	</form>
 
 	<!-- <div class="container">
 		<div class="img-box" v-for='img in imgs'>
@@ -93,17 +103,20 @@
 		</div>
 	</div> -->
 	<div class="container">
-		<div class="img-box" v-for='pic in pics'>
+		<div class="img-box" v-for='pic in pics | orderBy "index" -1'> <!--  -->
 			<img v-bind:src="pic.src" alt="" class="img">
 		</div>
 	</div>
 	<div class="thumb-container">
 		<!-- <div class="thumb-box-m" v-for='pic in pics | orderBy "index" '> -->
-		<div class="thumb-box-m" v-for='pic in pics | orderBy "index" '>
+		<div class="thumb-box-m" v-for='pic in pics  '>
+			<span v-bind:class="{ disable: pic.index===0 || pic.index===pics.length-1}">删除</span>
+			<span>上移</span>
+			<span>下移</span>
 			<img v-bind:src="pic.src" alt="" class="thumb-img">
 		</div>
 	</div>
-	<button id='generate'>生成图片</button>
+	<button id='generate' >生成图片</button>
 	<canvas id="result" ></canvas>
 	<!-- <input type="text" id="test" value="111"> -->
 	<script type="text/javascript">
@@ -111,12 +124,13 @@
 			el:'#app',
 			data:{
 				format:'png',
+				uploadMsg:'批量上传',
 				imgs:[
 				{index:3,format:'png'},
 				{index:2,format:'png'},
 				{index:1,format:'png'}
 				],
-				pics:['111'],
+				pics:[],
 				imgHeight:300,
 				subCut:25,
 				subHeight:35,
@@ -143,16 +157,29 @@
 				},
 				handlerUpload:function () {
 					var self_=this
-					var urls=getFileUrl('imgUpload'),l=urls.length-1
-					this.pics=[]
-					for(let i=l;i>=0;i--){
-						this.pics.push({src:urls[i],index:i})
+					var urls=getFileUrl('imgUpload'),l=urls.length
+					console.log('urls',urls)
+					// this.pics=[]
+					var len=this.pics.length
+					for(let i=0;i<l;i++){
+						this.pics.push({src:urls[i],index:i+len})
+						console.log('urls',urls[i],'index',i)
 					}
-					// console.log('pics',this.pics)
+					console.log('pics',this.pics)
 					// console.log('setpst',this.setPst)
 					setTimeout(function() {
 						self_.setPst()
+						self_.uploadMsg='继续添加'
+
+						var spans=document.querySelector('.thumb-container')
+						.querySelectorAll('span')
+						for(let i=0;i<spans.length;i++){
+							spans[i].onclick=function(){
+								console.log('click span')
+							}
+						}
 					}, 10);
+
 				},
 				decrease:function(){
 					// this.$data.subHeight++
@@ -263,6 +290,7 @@
 		document.querySelector('#generate').onclick = function() {
 			generateImg(appVue)
 		}
+
 	</script>
 </body>
 </html>
