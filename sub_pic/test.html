@@ -163,12 +163,11 @@
 	</head>
 	<body id='app'>
 		<h3 class="discription">说明：</h3>
-		<h3 class="discription">1.建议尺寸不低于200</h3>
+		<h3 class="discription">1.建议首图高度不低于200</h3>
 		<h3 class="discription">2.目前仅支持相同横竖比，相同尺寸的图片</h3>
 		<!-- <h3 class="discription">3.</h3> -->
 		<h2 class="setting">设置区</h2>
 		<div class="details">
-			<!-- <hr> -->
 			<form class="inner">
 				<label for='imgUpload'>{{uploadMsg}}：</label>
 				<input type="file" id="imgUpload" multiple name='imgUpload' v-on:change='handlerUpload'>
@@ -239,7 +238,7 @@
 				{index:1,format:'png'}
 				],
 				pics:[],
-				imgHeight:150,
+				imgHeight:200,
 				subCut:25,
 				subHeight:35,
 				picQty:4,
