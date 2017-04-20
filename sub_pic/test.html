@@ -162,7 +162,10 @@
 		</style>
 	</head>
 	<body id='app'>
-
+		<h3 class="discription">说明：</h3>
+		<h3 class="discription">1.建议尺寸不低于200</h3>
+		<h3 class="discription">2.目前仅支持相同横竖比，相同尺寸的图片</h3>
+		<!-- <h3 class="discription">3.</h3> -->
 		<h2 class="setting">设置区</h2>
 		<div class="details">
 			<!-- <hr> -->
@@ -219,6 +222,12 @@
 	<canvas id="result" ></canvas>
 	<!-- <input type="text" id="test" value="111"> -->
 	<script type="text/javascript">
+		if (!document.getElementById("result").getContext){
+			document.body.style.display='none'  
+			setTimeout(function() {
+				alert("您的浏览器不支持，再见~");
+			}, 10); 
+		}
 		var appVue=new Vue({
 			el:'#app',
 			data:{
@@ -282,12 +291,20 @@
 				},
 				imgUp:function(index){
 					var temp
+					if(index-1<0){
+						alert('it is the first one')
+						return
+					}
 					temp=this.pics[index].src
 					this.pics[index].src=this.pics[index-1].src
 					this.pics[index-1].src=temp
 				},
 				imgDown:function(index){
 					var temp
+					if(index+1>=this.pics.length){
+						alert('it is the last one')
+						return
+					}
 					temp=this.pics[index].src
 					this.pics[index].src=this.pics[index+1].src
 					this.pics[index+1].src=temp
