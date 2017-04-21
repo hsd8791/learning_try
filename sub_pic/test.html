@@ -13,6 +13,11 @@
 			position: relative;
 			bottom: -25px;
 		}
+		.discription{
+			max-width: 560px;
+			position: relative;
+			margin:0 auto;
+		}
 	</style>
 
 	<style type="text/css">
@@ -163,9 +168,11 @@
 	</head>
 	<body id='app'>
 		<h3 class="discription">说明：</h3>
-		<h3 class="discription">1.建议首图高度不低于200</h3>
-		<h3 class="discription">2.目前仅支持相同横竖比，相同尺寸的图片</h3>
-		<h3 class="discription">3.移动端兼容正在处理ing,鉴于移动端截图更方便，移动端不可忽视啊 <br>…-_-# </h3>
+		<h3 class="discription"> - 建议首图高度不低于200</h3>
+		<h3 class="discription"> - 目前仅支持相同横竖比，相同尺寸的图片</h3>
+		<h3 class="discription"> - <a href="http://jingyan.baidu.com/article/647f0115cb5f917f2148a8b8.html">PC连续截图教程</a> 快捷键 win+PrtSc</h3>
+		<h3 class="discription"> - 移动端使用并不是很方便啦~</h3>
+		<h3 class="discription">…-_-# </h3>
 		<h2 class="setting">设置区</h2>
 		<div class="details">
 			<form class="inner">
@@ -410,10 +417,10 @@
 		console.log('appVue',appVue)
 		appVue.setPst()
 		function checkNum(val){
-			// console.log('typeof val',typeof val)
-			// if(typeof val!=='number'){
-			// 	alert('请输入数字')
-			// }
+			console.log('typeof val',typeof val)
+			if(typeof val!=='number'){
+				alert('请输入数字')
+			}
 			return parseInt(val)
 		}
 		function getFileUrl(sourceId) {

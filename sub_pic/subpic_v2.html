@@ -22,238 +22,222 @@
 			position: relative;
 			/*border: 1px red solid;*/
 		}
-/*<<<<<<< HEAD
+
+
+		.thumb-box{
+
+		}
+		/*.thumb-container div*/
+		.thumb-container > div>span{
+			background: rgba(108, 231, 239, 0.92);
+			color:#666666;
+		}
+		.thumb-container > div>span.disable{
+			/*color:;*/
+			opacity: 0.1;
+			pointer-events: none;
+		}
+		.thumb-container > div>span:hover{
+			cursor: pointer;
+		}
+		.thumb-box{
+			max-width: 560px;
+			position:relative;
+			margin: 0 auto;
+		}
+		.thumb-box-m{
+			height: 100px;
+		}
+		.thumb-box-s{
+			height: 50px;
+		}
+		.thumb-box-l{
+			height: 150px;
+		}
+		.thumb-img{
+			height: 100%;
+		}
+		.container{
+			width: 100%;
+			height: 400px;
+			border: 1px red solid;
+
+			/*overflow: hidden;*/
+			position: relative;
+			/*display: none;*/
+		}
 		.img-box{
 			position: absolute;
-			height: 300px;
+			height: 150px;
 			bottom: 0;
 			left: 0;right: 0;
-			margin:0 auto;
-			width: 100%;
+			margin: 0 auto;
 			overflow: hidden;
-			=======*/
+		}
+		.img-box{
+			text-align: center;
+		}
+		.test-box{
 
-			.thumb-box{
+		}
+		.details{
+			/*border:1px gray solid;*/
+			color:#666666;
+			background: rgba(110,236,236,0.15);
+		}
+		.details .inner{
+			position: relative;
+			margin:0 auto;
+			max-width: 560px;
+		}
+		.details label{
+			margin: 5px;
+			margin-right: 0;
+			font-size: 24px;
+		}
+		.details input{
+			width: 80px;
+			color:#666666;
+			/*height: 40px;*/
+			margin: 5px;
+			margin-left: 0;
+			font-size: 26px;
+		}
+		.details .ctrl-bar{
+			height: 30px;
+			/*background: gray;*/
+			width: 80px;
+			display: inline-block;
+			/*margin-bottom: 5px;*/
+			vertical-align: super;
+		}
+		.setting{
+			margin-top: 10px;
+			background: rgba(222, 118, 26, 0.18);
+			text-align: center;
+		}
+		.details .ctrl-bar span{
+			width: 25px;height: 25px;
+			background: gray;
+			display: inline-block;
+			text-align: center;
+			vertical-align: sub;
+			border-radius: 50%;
+			font-size: 20px;
+			line-height: 1;
+			font-weight: bolder;
+			color:#fff;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+		.details .ctrl-bar span:hover{
+			cursor: pointer;
+		}
+		.details .ctrl-bar .decrease{
+			background:#de5b5b;
+		}
+		.details .ctrl-bar .increase{
+			background:#82d860;
+		}
 
-			}
-			/*.thumb-container div*/
-			.thumb-container > div>span{
-				background: rgba(108, 231, 239, 0.92);
-				color:#666666;
-			}
-			.thumb-container > div>span.disable{
-				/*color:;*/
-				opacity: 0.1;
-				pointer-events: none;
-			}
-			.thumb-container > div>span:hover{
-				cursor: pointer;
-				/*>>>>>>> 37b382078d851f19e123dafdb568906c375714c5*/
-			}
-			.thumb-box{
-				max-width: 560px;
-				position:relative;
-				margin: 0 auto;
-			}
-			.thumb-box-m{
-				height: 100px;
-			}
-			.thumb-box-s{
-				height: 50px;
-			}
-			.thumb-box-l{
-				height: 150px;
-			}
-			.thumb-img{
-				height: 100%;
-			}
-			.container{
-				width: 100%;
-				height: 400px;
-				border: 1px red solid;
+		.details input[type="file"]{
+			width: 300px;
+			font-size: 20px;
+			text-align: bottom;
+			border: 1px solid rgba(119, 67, 72, 0.49);
+			/*vertical-align: middle;*/
+		}
+	</style>
+</head>
+<body id='app'>
+	<h3 class="discription">说明：</h3>
+	<h3 class="discription">1.建议首图高度不低于200</h3>
+	<h3 class="discription">2.目前仅支持相同横竖比，相同尺寸的图片</h3>
+	<h3 class="discription">3.移动端兼容正在处理ing,鉴于移动端截图更方便，移动端不可忽视啊 <br>…-_-# </h3>
+	<h2 class="setting">设置区</h2>
+	<div class="details">
+		<form class="inner">
+			<label for='imgUpload'>{{uploadMsg}}：</label>
+			<input type="file" id="imgUpload" multiple name='imgUpload' v-on:change='handlerUpload'>
+			<br>
+			<label for='img_height'>首图高度：</label>
+			<input type="number" id="" name='imgHeight' v-model.number='imgHeight' v-on:keydown.up='numAdd("imgHeight")' v-on:keydown.down='numMinus("imgHeight")'>
+			<span class="ctrl-bar">
+				<span class="decrease" @click='numMinus("imgHeight",10)'>-</span>
+				<span class="increase" @click='numAdd("imgHeight",10)' >+</span>
+			</span>
+			<br>
+			<label for='cut_height'>底部剪裁：</label>
+			<input type="number" id="" name='subCut' v-model.number='subCut' v-on:keydown.up='numAdd("subCut")' v-on:keydown.down='numMinus("subCut")'>
+			<span class="ctrl-bar">
+				<span class="decrease" @click='numMinus("subCut",1)'>-</span>
+				<span class="increase" @click='numAdd("subCut",1)' >+</span>
+			</span>
+			<br>
+			<label for='height'>字幕高度：</label>
+			<input type="number" id="" name='height' v-model.number='subHeight'v-on:keydown.up='numAdd("subHeight")' v-on:keydown.down='numMinus("subHeight")' >
+			<span class="ctrl-bar">
+				<span class="decrease" @click='numMinus("subHeight",1)'>-</span>
+				<span class="increase" @click='numAdd("subHeight",1)' >+</span>
+			</span>
+		</form>
+	</div>
 
-				/*overflow: hidden;*/
-				position: relative;
-				/*display: none;*/
-			}
-			.img-box{
-				position: absolute;
-				height: 150px;
-				bottom: 0;
-				left: 0;right: 0;
-				margin: 0 auto;
-				overflow: hidden;
-			}
-			.img-box{
-				text-align: center;
-			}
-			.test-box{
 
-			}
-			.details{
-				/*border:1px gray solid;*/
-				color:#666666;
-				background: rgba(110,236,236,0.15);
-			}
-			.details .inner{
-				position: relative;
-				margin:0 auto;
-				max-width: 560px;
-			}
-			.details label{
-				margin: 5px;
-				margin-right: 0;
-				font-size: 24px;
-			}
-			.details input{
-				width: 80px;
-				color:#666666;
-				/*height: 40px;*/
-				margin: 5px;
-				margin-left: 0;
-				font-size: 26px;
-			}
-			.details .ctrl-bar{
-				height: 30px;
-				/*background: gray;*/
-				width: 80px;
-				display: inline-block;
-				/*margin-bottom: 5px;*/
-				vertical-align: super;
-			}
-			.setting{
-				margin-top: 10px;
-				background: rgba(222, 118, 26, 0.18);
-				text-align: center;
-			}
-			.details .ctrl-bar span{
-				width: 25px;height: 25px;
-				background: gray;
-				display: inline-block;
-				text-align: center;
-				vertical-align: sub;
-				border-radius: 50%;
-				font-size: 20px;
-				line-height: 1;
-				font-weight: bolder;
-				color:#fff;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				-o-user-select: none;
-				user-select: none;
-			}
-			.details .ctrl-bar span:hover{
-				cursor: pointer;
-			}
-			.details .ctrl-bar .decrease{
-				background:#de5b5b;
-			}
-			.details .ctrl-bar .increase{
-				background:#82d860;
-			}
-			.details input[type="file"]{
-				width: 300px;
-				font-size: 20px;
-				text-align: bottom;
-				border: 1px solid rgba(119, 67, 72, 0.49);
-				/*vertical-align: middle;*/
-			}
-		</style>
-	</head>
-	<body id='app'>
-		<h3 class="discription">说明：</h3>
-		<h3 class="discription">1.建议首图高度不低于200</h3>
-		<h3 class="discription">2.目前仅支持相同横竖比，相同尺寸的图片</h3>
-		<h3 class="discription">3.移动端兼容正在处理ing,鉴于移动端截图更方便，移动端不可忽视啊 <br>…-_-# </h3>
-		<h2 class="setting">设置区</h2>
-		<div class="details">
-			<form class="inner">
-				<label for='imgUpload'>{{uploadMsg}}：</label>
-				<input type="file" id="imgUpload" multiple name='imgUpload' v-on:change='handlerUpload'>
-				<br>
-				<label for='img_height'>首图高度：</label>
-				<input type="number" id="" name='imgHeight' v-model.number='imgHeight' v-on:keydown.up='numAdd("imgHeight")' v-on:keydown.down='numMinus("imgHeight")'>
-				<span class="ctrl-bar">
-					<span class="decrease" @click='numMinus("imgHeight",10)'>-</span>
-					<span class="increase" @click='numAdd("imgHeight",10)' >+</span>
-				</span>
-				<br>
-				<label for='cut_height'>底部剪裁：</label>
-				<input type="number" id="" name='subCut' v-model.number='subCut' v-on:keydown.up='numAdd("subCut")' v-on:keydown.down='numMinus("subCut")'>
-				<span class="ctrl-bar">
-					<span class="decrease" @click='numMinus("subCut",1)'>-</span>
-					<span class="increase" @click='numAdd("subCut",1)' >+</span>
-				</span>
-				<br>
-				<label for='height'>字幕高度：</label>
-				<input type="number" id="" name='height' v-model.number='subHeight'v-on:keydown.up='numAdd("subHeight")' v-on:keydown.down='numMinus("subHeight")' >
-				<span class="ctrl-bar">
-					<span class="decrease" @click='numMinus("subHeight",1)'>-</span>
-					<span class="increase" @click='numAdd("subHeight",1)' >+</span>
-				</span>
-			</form>
-		</div>
-
-	<!-- <div class="container">
-		<div class="img-box" v-for='img in imgs'>
-			<img v-bind:src="'./img/'+img.index+'.png'" alt="" class="img">
-		</div>
-	</div> -->
 	<h2 class="setting">预览区</h2>
 	<div class="container" v-bind:style='{height:imgHeight*1+(pics.length-1)*(subHeight)-subCut*1+"px"}'>
-		<div class="img-box" v-for='pic in pics | orderBy "index" -1'
-		 v-bind:style='{bottom:subHeight*(pics.length-pic.index-1)+"px"
-		,height:imgHeight+"px"}'> <!--  -->
-			<img v-bind:src="pic.src" alt="" class="img" v-bind:style='{bottom:-subCut+"px"}'>
-		</div>
+		<div class="img-box" v-for='pic in pics | orderBy "index" -1'	v-bind:style='{bottom:subHeight*(pics.length-pic.index-1)+"px"
+		,height:imgHeight+"px"}'> 
+		<img v-bind:src="pic.src" alt="" class="img" v-bind:style='{bottom:-subCut+"px"}'>
 	</div>
-	<h2 class="setting">控制区</h2>
-	<div class="thumb-container">
-		<!-- <div class="thumb-box-m" v-for='pic in pics | orderBy "index" '> -->
-		<div class="thumb-box thumb-box-m " v-for='pic in pics  '>
-			<span v-bind:class="{ disable: pic.index===0 }" @click='imgUp(pic.index)'>上移</span>
-			<span v-bind:class="{ disable: pic.index===pics.length-1}" @click='imgDown(pic.index)'>下移</span>
-			<span @click='imgDelete(pic.index)'>删除</span>
-			<img v-bind:src="pic.src" alt="" class="thumb-img" v-on:DOMAttrModified='srcChange($e)'>
-		</div>
+</div>
+<h2 class="setting">控制区</h2>
+<div class="thumb-container">
+	<div class="thumb-box thumb-box-m " v-for='pic in pics  '>
+		<span v-bind:class="{ disable: pic.index===0 }" @click='imgUp(pic.index)'>上移</span>
+		<span v-bind:class="{ disable: pic.index===pics.length-1}" @click='imgDown(pic.index)'>下移</span>
+		<span @click='imgDelete(pic.index)'>删除</span>
+		<img v-bind:src="pic.src" alt="" class="thumb-img" v-on:DOMAttrModified='srcChange($e)'>
 	</div>
-	<h2 class="setting">点击生成图片，长按/右击 图片保存</h2>
-	<button id='generate' >生成图片</button>
-	<canvas id="result" ></canvas>
-	<!-- <input type="text" id="test" value="111"> -->
-	<script type="text/javascript">
-		if (!document.getElementById("result").getContext){
-			document.body.style.display='none'  
-			setTimeout(function() {
-				alert("您的浏览器不支持，再见~");
-			}, 10); 
-		}
-		var appVue=new Vue({
-			el:'#app',
-			data:{
-				format:'png',
-				uploadMsg:'批量上传',
-				imgs:[
-				{index:3,format:'png'},
-				{index:2,format:'png'},
-				{index:1,format:'png'}
-				],
-				pics:[],
-				imgHeight:200,
-				subCut:25,
-				subHeight:35,
-				picQty:4,
-				thumbHeight:50
+</div>
+<h2 class="setting">点击生成图片，长按/右击 图片保存</h2>
+<button id='generate' >生成图片</button>
+<canvas id="result" ></canvas>
+<script type="text/javascript">
+	if (!document.getElementById("result").getContext){
+		document.body.style.display='none'  
+		setTimeout(function() {
+			alert("您的浏览器不支持，再见~");
+		}, 10); 
+	}
+	var appVue=new Vue({
+		el:'#app',
+		data:{
+			format:'png',
+			uploadMsg:'批量上传',
+			imgs:[
+			{index:3,format:'png'},
+			{index:2,format:'png'},
+			{index:1,format:'png'}
+			],
+			pics:[],
+			imgHeight:200,
+			subCut:25,
+			subHeight:35,
+			picQty:4,
+			thumbHeight:50
+		},
+		methods:{
+			setPst:function(){
+				
 			},
-			methods:{
-				setPst:function(){
-					
-				},
-				handlerUpload:function () {
-					var self_=this
-					var urls=getFileUrl('imgUpload'),l=urls.length
-					console.log('urls',urls)
+			handlerUpload:function () {
+				var self_=this
+				var urls=getFileUrl('imgUpload'),l=urls.length
+				console.log('urls',urls)
 					// this.pics=[]
 					var len=this.pics.length
 					for(let i=0;i<l;i++){
@@ -328,10 +312,10 @@
 				}
 			}
 		})
-		function getFileUrl(sourceId) {
-			var urls = [];
-			var files = document.getElementById(sourceId).files
-			createURL(urls, files)
+	function getFileUrl(sourceId) {
+		var urls = [];
+		var files = document.getElementById(sourceId).files
+		createURL(urls, files)
 			// console.log('urls',urls);
 			return urls;
 		}
