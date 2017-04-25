@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>component one</title>
+	<script type="text/javascript" src="../vue.js"></script>
+</head>
+<body>
+	<div id="app1">
+		<menulist></menulist>
+		
+	</div>
+<!-- 	<table style="background: gray">
+		<tr is='menulist'></tr>
+	</table> -->
+	<script type="text/javascript">
+		Vue.component('child', {
+			template: `
+			<div>
+				<span>{{ message }}  & {{defaultMsg}} && {{num10}}</span>
+				<input type="text" v-model='defaultMsg'/>
+			</div>
+			`,
+			props: {
+				message: [Number, String],
+				num10:{
+					validator:function(val){
+						return val > 10
+					}
+				}
+			},
+			data: function() {
+				return{
+					childData:'1111---test---11111'
+				}
+			},
+			computed:{
+				defaultMsg:function(){
+					return this.message+' default'
+				}
+			}
+			// data:function(){
+			// 	return {
+			// 		message:''
+			// 	}
+			// },
+		})
+		Vue.component('menulist', {
+			template: `
+			<div> 
+				<h1>costum menulist of {{type}}</h1>
+				<input type="text" v-model='type' />
+				<input type="text" v-model='qty' />
+				<ul>
+					<li v-for='item in list'>type:{{item.type}} name:{{item.name}}</li>
+				</ul>
+				<child v-bind:message='type' :num10='qty'> </child>
+			</div>
+			`,
+			data: function() {
+				return {
+					list: [{
+						type: 'veg',
+						name: 'lettuce'
+					}, {
+						type: 'fruit',
+						name: 'apple'
+					}, {
+						type: 'meat',
+						name: 'pork'
+					}],
+					type:'food',
+					qty:5
+				}
+			}
+		})
+
+
+
+		var app1=new Vue({
+			el:'#app1'
+		})
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>directive</title>
+	<script type="text/javascript" src="../vue.js"></script>
+</head>
+<body >
+	<div id='app'>
+		<div v-demo='hh'>111</div>
+		<div v-testDir="content"></div>
+		<hr>
+		<hr>
+		{{ content }}
+	</div>
+	<script type="text/javascript">
+		Vue.directive('demo', {
+			update:function (val,val1) {
+				console.log('11')
+				console.log('val',val)
+				console.log('val1',val1)
+			},
+			bind:function(){
+				console.log('this',this)
+				console.log('this',this.value)
+			}
+		})
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				content: 'this is the inital content data',
+				hh:'test'
+			}
+		})
+		Vue.directive('testDir',{
+			bind: function(){
+				console.log(this.value)
+			},
+			update: function (value) {
+				console.log(value);
+				this.el.innerText = value;
+			}
+		})
+	</script>
+</body>
+</html>

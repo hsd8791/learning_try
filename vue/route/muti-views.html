@@ -4,7 +4,7 @@
 	<title>mutiple views</title>
 </head>
 <body>
-	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="../vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 <div id="app">
@@ -28,14 +28,14 @@ const Bar = { template: '<div>bar</div>' }
 const Baz = { template: '<div>baz</div>' }
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     { path: '/',
       // a single route can define multiple named components
       // which will be rendered into <router-view>s with corresponding names.
       components: {
         default: Foo,
-        a: Bar,
+        a: null,
         b: Baz
       }
     },
@@ -54,6 +54,10 @@ new Vue({
 	router,
   el: '#app'
 })
+setTimeout(function() {
+  console.log('router',router)
+  router.options.routes[0].components.a=Bar
+}, 5000);
 
 </script>
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue api</title>
+	<script type="text/javascript" src='../vue.js'></script>
+	<style type="text/css">
+	</style>
+</head>
+<body>
+<div id="app" @click=change>
+	<h1 v-if="ok">Yes</h1>
+	<h1 v-else>No</h1>
+	<template v-if="ok">
+  <h1>Title</h1>
+  <p>Paragraph 1</p>
+  <p>Paragraph 2</p>
+</template>
+</div>
+
+<script type="text/javascript">	
+
+
+var vm = new Vue({
+  el: '#app',
+  data: {
+    firstName: 'Foo',
+    lastName: 'Bar',
+    ok:true
+  },
+  methods:{
+  	change:function(){
+  		this.ok=!this.ok
+  	}
+  }
+})
+
+	Vue.component('my-component', {
+		template: '<div>A custom component!</div>'
+	})
+
+	Vue.component('child-componet', {
+		template: `<p>{{ childMessage }}---{{ childMessage2 }}</p>`,
+		props:['childMessage','childMessage2']
+	})
+	Vue.component('test-comp', {
+		template: `<input type="text" v-model='message' />`
+	})
+	
+</script>
+<!-- <div id="example">
+	<my-component></my-component>
+</div> -->
+
+</body>
+</html>

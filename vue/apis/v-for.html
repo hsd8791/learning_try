@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>v-for</title>
+  <script type="text/javascript" src="../vue.js"></script>
+</head>
+<body>
+  <ul id="example-2" @click.once='greet("11",$event)'>
+    <li v-for="(item, index) in items">
+      {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+    <li v-for="n in evenNumbers">{{ n }}</li>
+    <hr>
+    <my-component v-for="(item, index) in items" v-bind:item="item"  v-bind:index="index">
+  </my-component>
+</ul>
+<script type="text/javascript">
+  Vue.component('my-component',{
+    template:'<div>{{item.message}} +++ {{index}}</div>',
+    props:['item','index']
+  })
+  var example2 = new Vue({
+    el: '#example-2',
+    data: {
+      parentMessage: 'Parent',
+      items: [
+      { message: 'Foo' },
+      { message: 'hhh' },
+      { message: 'Bar' }
+      ],
+      numbers: [ 1, 2, 3, 4, 5 ]
+    },
+    computed: {
+      evenNumbers: function () {
+        return this.numbers.filter(function (number) {
+          return number % 2 === 0
+        })
+      }
+    },
+    methods: {
+      greet: function (event,e) {
+        alert('Hello ' + this.name + '!')
+        alert(e.target.tagName)
+        alert(event)
+      }
+    }
+  })
+
+</script>
+</body>
+</html>

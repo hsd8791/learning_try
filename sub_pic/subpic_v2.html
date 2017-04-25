@@ -22,7 +22,11 @@
 			position: relative;
 			/*border: 1px red solid;*/
 		}
-
+		.discription{
+			max-width: 560px;
+			position: relative;
+			margin:0 auto;
+		}
 
 		.thumb-box{
 
@@ -154,9 +158,12 @@
 </head>
 <body id='app'>
 	<h3 class="discription">说明：</h3>
-	<h3 class="discription">1.建议首图高度不低于200</h3>
-	<h3 class="discription">2.目前仅支持相同横竖比，相同尺寸的图片</h3>
-	<h3 class="discription">3.移动端兼容正在处理ing,鉴于移动端截图更方便，移动端不可忽视啊 <br>…-_-# </h3>
+	<h3 class="discription"> - 建议首图高度不低于200</h3>
+	<h3 class="discription"> - 目前仅支持相同横竖比，相同尺寸的图片</h3>
+	<h3 class="discription"> - 移动端兼容正在处理ing</h3>
+	<h3 class="discription"> - 横屏~~~</h3>
+	<h3 class="discription"> - <a href="http://jingyan.baidu.com/article/647f0115cb5f917f2148a8b8.html">PC连续截图教程</a>快捷键 win+PrtSc</h3>
+	<h3 class="discription">…-_-# </h3>
 	<h2 class="setting">设置区</h2>
 	<div class="details">
 		<form class="inner">
@@ -207,111 +214,142 @@
 <button id='generate' >生成图片</button>
 <canvas id="result" ></canvas>
 <script type="text/javascript">
-	if (!document.getElementById("result").getContext){
-		document.body.style.display='none'  
+	if (!document.getElementById("result").getContext) {
+		document.body.style.display = 'none'
 		setTimeout(function() {
 			alert("您的浏览器不支持，再见~");
-		}, 10); 
+		}, 10);
 	}
-	var appVue=new Vue({
-		el:'#app',
-		data:{
-			format:'png',
-			uploadMsg:'批量上传',
-			imgs:[
-			{index:3,format:'png'},
-			{index:2,format:'png'},
-			{index:1,format:'png'}
-			],
-			pics:[],
-			imgHeight:200,
-			subCut:25,
-			subHeight:35,
-			picQty:4,
-			thumbHeight:50
+	var appVue = new Vue({
+		el: '#app',
+		data: {
+			format: 'png',
+			uploadMsg: '批量上传',
+			imgs: [{
+				index: 3,
+				format: 'png'
+			}, {
+				index: 2,
+				format: 'png'
+			}, {
+				index: 1,
+				format: 'png'
+			}],
+			pics: [],
+			imgHeight: 200,
+			subCut: 25,
+			subHeight: 35,
+			picQty: 4,
+			thumbHeight: 50
 		},
-		methods:{
-			setPst:function(){
-				
+		methods: {
+			setPst: function() {
+
 			},
-			handlerUpload:function () {
-				var self_=this
-				var urls=getFileUrl('imgUpload'),l=urls.length
-				console.log('urls',urls)
-					// this.pics=[]
-					var len=this.pics.length
-					for(let i=0;i<l;i++){
-						this.pics.push({src:urls[i],index:i+len})
-						console.log('urls',urls[i],'index',i)
-					}
-					console.log('pics',this.pics)
-					// console.log('setpst',this.setPst)
-					this.$nextTick(function() {
-						self_.setPst()
-						self_.uploadMsg='继续添加'
-
-						var spans=document.querySelector('.thumb-container')
-						.querySelectorAll('span')
-						for(let i=0;i<spans.length;i++){
-							spans[i].onclick=function(){
-								console.log('click span')
-							}
-						}
-					});
-
-				},
-				imgUp:function(index){
-					var temp
-					if(index-1<0){
-						alert('it is the first one')
-						return
-					}
-					temp=this.pics[index].src
-					this.pics[index].src=this.pics[index-1].src
-					this.pics[index-1].src=temp
-				},
-				imgDown:function(index){
-					var temp
-					if(index+1>=this.pics.length){
-						alert('it is the last one')
-						return
-					}
-					temp=this.pics[index].src
-					this.pics[index].src=this.pics[index+1].src
-					this.pics[index+1].src=temp
-				},
-				imgDelete:function(index){
-					var temp=[],l=this.pics.length
-					for(let i=0;i<l;i++){
-						if(i>index){
-							this.pics[i].index--
-						}
-						if(i!==index){
-							temp.push(this.pics[i])
-						}
-					}
-					this.pics=temp
-				},
-				srcChange:function(e){
-					console.log('e',e)
-				},
-				numAdd:function(id,step){
-					if(step===undefined){
-						step=1
-					}
-					this.$data[id]+=step
-				},
-				numMinus:function(id,step){
-					if(step===undefined){
-						step=1
-					}
-					this.$data[id]-=step
-				},
-				decrease:function(){
-					// this.$data.subHeight++
+			handlerUpload: function() {
+				var self_ = this
+				var urls = getFileUrl('imgUpload'),
+				l = urls.length
+				console.log('urls', urls)
+				var len = this.pics.length
+				for (let i = 0; i < l; i++) {
+					this.pics.push({
+						src: urls[i],
+						index: i + len
+					})
+					console.log('urls', urls[i], 'index', i)
 				}
+				console.log('pics', this.pics)
+				this.$nextTick(function() {
+					self_.setPst()
+					self_.uploadMsg = '继续添加'
+
+					var spans = document.querySelector('.thumb-container')
+					.querySelectorAll('span')
+					for (let i = 0; i < spans.length; i++) {
+						spans[i].onclick = function() {
+							console.log('click span')
+						}
+					}
+				});
+
+			},
+			imgUp: function(index) {
+				var temp
+				if (index - 1 < 0) {
+					alert('it is the first one')
+					return
+				}
+				temp = this.pics[index].src
+				this.pics[index].src = this.pics[index - 1].src
+				this.pics[index - 1].src = temp
+			},
+			imgDown: function(index) {
+				var temp
+				if (index + 1 >= this.pics.length) {
+					alert('it is the last one')
+					return
+				}
+				temp = this.pics[index].src
+				this.pics[index].src = this.pics[index + 1].src
+				this.pics[index + 1].src = temp
+			},
+			imgDelete: function(index) {
+				var temp = [],
+				l = this.pics.length
+				for (let i = 0; i < l; i++) {
+					if (i > index) {
+						this.pics[i].index--
+					}
+					if (i !== index) {
+						temp.push(this.pics[i])
+					}
+				}
+				this.pics = temp
+			},
+			srcChange: function(e) {
+				console.log('e', e)
+			},
+			numAdd: function(id, step) {
+				if (step === undefined) {
+					step = 1
+				}
+				this.$data[id] += step
+			},
+			numMinus: function(id, step) {
+				if (step === undefined) {
+					step = 1
+				}
+				this.$data[id] -= step
+			},
+			decrease: function() {
+				// this.$data.subHeight++
 			}
-		})
+		}
+	})
+	appVue.$watch('subHeight',function(newVal,oldVal){
+		newVal=checkNum(newVal)
+		this.subHeight=newVal
+	})
+
+	appVue.$watch('imgHeight',function(newVal,oldVal){
+		newVal=checkNum(newVal)
+		this.imgHeight=newVal
+	})
+
+	appVue.$watch('subCut',function(newVal,oldVal){
+		newVal=checkNum(newVal)
+		this.subCut=newVal
+	})
+
+	function checkNum(val){
+		console.log('typeof val',typeof val)
+		if(typeof val!=='number'){
+			alert('请输入数字')
+		}
+		return parseInt(val)
+		
+	}
 	function getFileUrl(sourceId) {
 		var urls = [];
 		var files = document.getElementById(sourceId).files
@@ -319,61 +357,63 @@
 			// console.log('urls',urls);
 			return urls;
 		}
+
 		function createURL(urls, files) {
 			var l = files.length
 			for (let i = 0; i < l; i++) {
 				urls.push(window.URL.createObjectURL(files[i]))
 			}
 		}
-		function generateImg(appVue){
+
+		function generateImg(appVue) {
 			var imgs = document.querySelector('.container').querySelectorAll('img')
 			console.log('imgs', imgs)
 			var canvas = document.querySelector('#result'),
 			ctx = canvas.getContext('2d')
-			calcCvs(appVue,canvas,ctx,imgs)
+			calcCvs(appVue, canvas, ctx, imgs)
 			//计算画布高度  cvsHeight= firstHeight+ l-1 *subHeight
 			//画布宽度 default = natrualWidth/naturalHeight*firstHeight
 
-			//every single pst => center  
-			//pstX: (cvsWidth-img[i].naturalWidth*ratio)/2
-			//pstY: img[i].natueralHeight*raito+subHeight*(i-1)
+		//every single pst => center  
+		//pstX: (cvsWidth-img[i].naturalWidth*ratio)/2
+		//pstY: img[i].natueralHeight*raito+subHeight*(i-1)
 
-			//ratio calculate seprately
+		//ratio calculate seprately
 
-			//翻转... rotate width <=> height
+		//翻转... rotate width <=> height
+	}
+
+	function calcCvs(appVue, cvs, ctx, imgs) {
+		var l = imgs.length,
+		subHeight = appVue.$data.subHeight,
+		subCut = appVue.$data.subCut,
+		imgHeight = appVue.$data.imgHeight
+		var ratio = imgHeight / imgs[0].naturalHeight //根据自定高度计算
+		cvs.height = ratio * imgs[0].naturalHeight + (l - 1) * subHeight - subCut * 1
+		cvs.width = ratio * imgs[0].naturalWidth
+		ctx.scale(ratio, ratio)
+		var imgsData = []
+		for (let i = imgs.length - 1; i >= 0; i--) {
+			// ratio=imgHeight/imgs[i].naturalHeight //根据自定高度计算
+			// ctx.scale(1,1)
+			// ctx.scale(ratio,ratio)
+			ctx.drawImage(imgs[i], 0, 0)
+			let imgData = ctx.getImageData(0, 0,
+				ratio * imgs[i].naturalWidth, ratio * imgs[i].naturalHeight - subCut)
+			imgsData.push(imgData)
 		}
-		function calcCvs(appVue,cvs,ctx,imgs){
-			var l = imgs.length,
-			subHeight = appVue.$data.subHeight,
-			subCut = appVue.$data.subCut,
-			imgHeight = appVue.$data.imgHeight
-			var ratio=imgHeight/imgs[0].naturalHeight //根据自定高度计算
-			cvs.height=ratio*imgs[0].naturalHeight+(l-1)*subHeight-subCut*1
-			cvs.width=ratio*imgs[0].naturalWidth
-			ctx.scale(ratio,ratio)
-			var imgsData=[]
-			for(let i=imgs.length-1;i>=0;i--){
-				// ratio=imgHeight/imgs[i].naturalHeight //根据自定高度计算
-				// ctx.scale(1,1)
-				// ctx.scale(ratio,ratio)
-				ctx.drawImage(imgs[i],0,0)
-				let imgData=ctx.getImageData(0,0,
-					ratio*imgs[i].naturalWidth,ratio*imgs[i].naturalHeight-subCut)
-				imgsData.push(imgData)
-			}
-			console.log('imgsData',imgsData)
-			for(let i=imgsData.length-1;i>=0;i--){
-				ctx.putImageData(imgsData[i],0,subHeight*i)
-			}
-			
-			//难道需要对图像处理么。。
-			// ctx.drawImage(imgs[1],0,subHeight)
-			console.log('subHeight',subHeight+subCut);
-		}
-		document.querySelector('#generate').onclick = function() {
-			generateImg(appVue)
+		console.log('imgsData', imgsData)
+		for (let i = imgsData.length - 1; i >= 0; i--) {
+			ctx.putImageData(imgsData[i], 0, subHeight * i)
 		}
 
-	</script>
+		//难道需要对图像处理么。。
+		// ctx.drawImage(imgs[1],0,subHeight)
+		console.log('subHeight', subHeight + subCut);
+	}
+	document.querySelector('#generate').onclick = function() {
+		generateImg(appVue)
+	}
+</script>
 </body>
 </html>
