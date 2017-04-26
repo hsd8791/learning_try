@@ -1,0 +1,47 @@
+<html>
+<head>
+	<script src="./vue.js"></script>
+	<title>222</title>
+</head>
+<body>
+	<div id="demo">
+		<input type="checkbox" id="checkbox" v-model="checked">
+		<label for="checkbox">{{ checked }}</label>
+
+		<input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+		<label for="jack">Jack</label>
+		<input type="checkbox" id="john" value="John" v-model="checkedNames">
+		<label for="john">John</label>
+		<input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+		<label for="mike">Mike</label>
+		<br>
+		<span>Checked names: {{ checkedNames }}</span>
+	</div>
+	<div id="example-4" class="demo">
+		<input type="radio" id="one" value="One" v-model="picked">
+		<label for="one">One</label>
+		<br>
+		<input type="radio" id="two" value="Two" v-model="picked">
+		<label for="two">Two</label>
+		<br>
+		<span>Picked: {{ picked }}</span>
+	</div>
+
+	<script>
+		var bus = new Vue()
+		var vm=new Vue({
+			el:'#demo',
+			data:{
+				checked:true,
+				checkedNames: []
+			}
+		})
+		new Vue({
+			el: '#example-4',
+			data: {
+				picked: ''
+			}
+		})
+	</script>
+</body>
+</html>

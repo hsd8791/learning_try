@@ -15,7 +15,7 @@
   </my-component>
 </ul>
 <script type="text/javascript">
-  Vue.component('my-component',{
+  var comp=Vue.component('my-component',{
     template:'<div>{{item.message}} +++ {{index}}</div>',
     props:['item','index']
   })
@@ -29,6 +29,12 @@
       { message: 'Bar' }
       ],
       numbers: [ 1, 2, 3, 4, 5 ]
+    },
+    beforeUpdate:function(){
+       console.log('beforeUpdate 钩子执行...');
+     },
+    updated:function(){
+      console.log('bingo')
     },
     computed: {
       evenNumbers: function () {
