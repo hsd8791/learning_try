@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>download</title>
+
+</head>
+<body>
+	<!-- <img src="data:image/jpge;base64,R0lGOXXXXX"> -->
+	<canvas id="result" width="400" height="300"></canvas>
+	<button id='download'>download</button>
+	<script>
+		var canvas=document.querySelector('#result')
+		var imgUrl=canvas.toDataURL("image/png")
+		var download=document.querySelector('#download')
+		download.onclick=function(){
+			// downloadCanvas(this.)
+			this.href=imgUrl
+			this.download='test.png'
+		}
+		console.log('img',imgUrl);
+		// function downloadCanvas(link, canvasId, filename) {
+		// 	link.href = document.getElementById(canvasId).toDataURL();
+		// 	link.download = filename;
+		// }
+
+		// document.getElementById('download').addEventListener('click', function() {
+		// 	downloadCanvas(this, 'result', 'test.png');
+		// }, false);
+	</script>
+</body>
+</html>
