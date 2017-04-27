@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>download</title>
@@ -6,26 +7,29 @@
 <body>
 	<!-- <img src="data:image/jpge;base64,R0lGOXXXXX"> -->
 	<canvas id="result" width="400" height="300"></canvas>
-	<a id='download' style="background: red">download</a>
+	<a id='download' download style="background: red">download</a>
 	<script>
 		var canvas=document.querySelector('#result')
 		var imgUrl=canvas.toDataURL("image/png")
 		var download=document.querySelector('#download')
+		console.log('imgUrl',imgUrl);
+		console.log('download',download);
 		download.onclick=function(){
 			// downloadCanvas(this.)
+
 			this.href=imgUrl
 			this.download='test.png'
 		}
-		console.log('img',imgUrl);
-		function downloadCanvas(link, canvasId, filename) {
-			link.href = document.getElementById(canvasId).toDataURL();
-			console.log('toDataURL',link.href);
-			link.download = filename;
-		}
+		// console.log('img',imgUrl);
+		// function downloadCanvas(link, canvasId, filename) {
+		// 	link.href = document.getElementById(canvasId).toDataURL();
+		// 	console.log('toDataURL',link.href);
+		// 	link.download = filename;
+		// }
 
-		document.getElementById('download').addEventListener('click', function() {
-			downloadCanvas(this, 'result', 'test.png');
-		}, false);
+		// document.getElementById('download').addEventListener('click', function() {
+		// 	downloadCanvas(this, 'result', 'test.png');
+		// }, false);
 	</script>
 </body>
 </html>
