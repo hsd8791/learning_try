@@ -5,14 +5,38 @@
 	<script type="text/javascript" src="../vue.js"></script>
 </head>
 <body>
-	<div id="app1">
-		<menulist></menulist>
-		
-	</div>
+	<div id="example">
+		<keep-alive>
+		<component v-bind:is="currentView">
+		</component>
+	</keep-alive>
+	<keep-alive>
+	<comp-a v-if="a > 1"></comp-a>
+	<comp-b v-else></comp-b>
+	<async-example></async-example>
+</keep-alive>
+</div>
+<div id="parent">
+	<user-profile ref="profile"></user-profile>
+</div>
+<div id="app1">
+	<menulist></menulist>
+	<child></child>
+</div>
 <!-- 	<table style="background: gray">
 		<tr is='menulist'></tr>
 	</table> -->
 	<script type="text/javascript">
+		var bus = new Vue({
+
+		})
+		Vue.component('async-example', function (resolve, reject) {
+			setTimeout(function () {
+				resolve({
+					template: '<div>I am async!</div>'
+				})
+			}, 1000)
+		})
 		Vue.component('child', {
 			template: `
 			<div>
@@ -27,6 +51,11 @@
 						return val > 10
 					}
 				}
+			},
+			created:function(){
+				bus.$on('testEvent',function(id,id2,id3){
+					console.log('get test event',id,id2,id3)
+				})
 			},
 			data: function() {
 				return{
@@ -46,7 +75,7 @@
 		})
 		Vue.component('menulist', {
 			template: `
-			<div> 
+			<div>
 				<h1>costum menulist of {{type}}</h1>
 				<input type="text" v-model='type' />
 				<input type="text" v-model='qty' />
@@ -54,6 +83,7 @@
 					<li v-for='item in list'>type:{{item.type}} name:{{item.name}}</li>
 				</ul>
 				<child v-bind:message='type' :num10='qty'> </child>
+				<button @click='triggerTest'>trigger</button>
 			</div>
 			`,
 			data: function() {
@@ -69,12 +99,45 @@
 						name: 'pork'
 					}],
 					type:'food',
-					qty:5
+					qty:50
+				}
+			},
+			methods:{
+				triggerTest:function(){
+					bus.$emit('testEvent',1,3,4)
+					console.log('testEvent')
 				}
 			}
 		})
-
-
+		Vue.component('comp-a',{
+			template:`<div>comp-a</div>`
+		})
+		Vue.component('comp-b',{
+			template:`<div>comp-b</div>`
+		})
+		Vue.component('user-profile',{
+			template:`<div>user-profile</div>`
+		})
+		var parent = new Vue({ el: '#parent' })
+		var child = parent.$refs.profile
+		var vmIs = new Vue({
+			el: '#example',
+			data: {
+				currentView: 'home',
+				a:2
+			},
+			components: {
+				home: { template:`<div>home</div>` },
+				posts: { template:`<div>posts</div>` },
+				archive: { template:`<div>archieve</div>` }
+			},
+			activated:function(){
+				console.log('activated')
+			},
+			deactivated:function(){
+				console.log('deactivated')
+			}
+		})
 
 		var app1=new Vue({
 			el:'#app1'

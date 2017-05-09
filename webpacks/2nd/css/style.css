@@ -1,0 +1,10 @@
+body{
+	background: yellow;
+}
+div{
+	color:red;
+	background: gray;
+}
+div:hover{
+	color:yellow;
+}

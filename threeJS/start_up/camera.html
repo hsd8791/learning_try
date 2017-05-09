@@ -33,44 +33,44 @@
 			renderer.setClearColor(0x000000);
 
 			var scene = new THREE.Scene();
-			cvs.addEventListener('mousedown', function(e) {
-				// console.log('cvs',this)
-				e = e || window.event
-				var prevX = e.clientX,
-				prevY = e.clientY
-				this.onmousemove = function(e) {
-					e = e || window.event
-					var crrtX = e.clientX,
-					crrtY = e.clientY
-					// 需根据当前角度计算deltaX deltaY
-					var deltaX=(crrtX-prevX)*0//*Math.sin(Math.PI*angleBeta/180)
-					var deltaY=(crrtY-prevY)//*Math.sin(Math.PI*angleSita/180)
-					// console.log('delta',deltaX,deltaY)
-					angleSita=(angleSita+deltaX/50)
-					angleSita=angleSita>360?angleSita-360:angleSita
-					angleSita=angleSita<-360?angleSita+360:angleSita
-					angleBeta=angleBeta+deltaY/50
-					angleBeta=angleBeta>360?360:angleBeta
-					angleBeta=angleBeta<0?0:angleBeta
-					// angleSita=angleSita.toFixed(5)
-					// pstY-=deltaY/100
-					pstY=calcY(angleBeta,R)
-					pstX=calcX(angleSita,pstY,R)
-					// pstY-=deltaY/1000
-					pstZ=calcZ(angleSita,pstY,R)
-					console.log('pst',pstX,pstY,pstZ,angleSita)
-					camera.position.set(pstX,pstY,pstZ)
-					camera.lookAt(new THREE.Vector3(0, 0, 0));
+			// cvs.addEventListener('mousedown', function(e) {
+			// 	// console.log('cvs',this)
+			// 	e = e || window.event
+			// 	var prevX = e.clientX,
+			// 	prevY = e.clientY
+			// 	this.onmousemove = function(e) {
+			// 		e = e || window.event
+			// 		var crrtX = e.clientX,
+			// 		crrtY = e.clientY
+			// 		// 需根据当前角度计算deltaX deltaY
+			// 		var deltaX=(crrtX-prevX)*0//*Math.sin(Math.PI*angleBeta/180)
+			// 		var deltaY=(crrtY-prevY)//*Math.sin(Math.PI*angleSita/180)
+			// 		// console.log('delta',deltaX,deltaY)
+			// 		angleSita=(angleSita+deltaX/50)
+			// 		angleSita=angleSita>360?angleSita-360:angleSita
+			// 		angleSita=angleSita<-360?angleSita+360:angleSita
+			// 		angleBeta=angleBeta+deltaY/50
+			// 		angleBeta=angleBeta>360?360:angleBeta
+			// 		angleBeta=angleBeta<0?0:angleBeta
+			// 		// angleSita=angleSita.toFixed(5)
+			// 		// pstY-=deltaY/100
+			// 		pstY=calcY(angleBeta,R)
+			// 		pstX=calcX(angleSita,pstY,R)
+			// 		// pstY-=deltaY/1000
+			// 		pstZ=calcZ(angleSita,pstY,R)
+			// 		console.log('pst',pstX,pstY,pstZ,angleSita)
+			// 		camera.position.set(pstX,pstY,pstZ)
+			// 		camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-					renderer.render(scene, camera);
-						// console.log('e',e)
-						// console.log('xxx',xxx)
-						this.onmouseup = function() {
-							this.onmousemove = null
-						}
-					}
+			// 		renderer.render(scene, camera);
+			// 			// console.log('e',e)
+			// 			// console.log('xxx',xxx)
+			// 			this.onmouseup = function() {
+			// 				this.onmousemove = null
+			// 			}
+			// 		}
 
-				}, false)
+			// 	}, false)
 
 			// orthographic
 			// var camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);

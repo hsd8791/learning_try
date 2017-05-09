@@ -15,78 +15,126 @@
 		<input type="text" v-model='firstName'>
 		<input type="text" v-model='lastName'>
 		<input type="text" v-model='fullName'>
-
+		<hr>
+		<transition>
+			<span :key="fullName">{{ fullName }}</span>
+		</transition>
+		<!-- <input type="text" v-model='action.move.sleep'> -->
+		<!-- <input type="text" v-model='action.work'> -->
+		<div  v-html="html"></div>
+		<hr>
+		<span v-pre>{{ this will not be compiled }}</span>
+		<div type="text" v-for='(val,index) in action  ' :key="val.keep"  >{{ index}}:{{val.move}}-{{val.keep | minute }} </div>
+		<div type="text" v-for='(val,index) in orderedAct  ' :key="val.keep"  >{{ index}}:{{val.move}}-{{val.keep}}</div>
+		<hr>
+		<div v-for='(val,key,index) in action[0]'>
+			{{val}}--{{key}}--{{index}}
+		</div>
 	</div>
+	<hr>
 	<div id="app">
 
 		<!-- <div id="mount-point"></div> -->
 		<!-- <test-comp> -->
 		
-<input v-model="message">
-<div>{{reversedMsg}}</div>
-	<!-- </test-comp>	 -->
-	<child-componet :child-message='message' :child-message2="reversedMsg"></child-componet>
-	<!-- <div id="mount-point2"></div> -->
-</div>
-<div id="mount-point"></div>
-<script type="text/javascript">	
+		<input v-model="message">
+		<div>{{reversedMsg}}</div>
+		<!-- </test-comp>	 -->
+		<child-componet :child-message='message' :child-message2="reversedMsg"></child-componet>
+		<!-- <div id="mount-point2"></div> -->
+	</div>
+	<div id="mount-point"></div>
+	<script type="text/javascript">	
 
-var Profile = Vue.extend({
-  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
-  data: function () {
-    return {
-      firstName: 'Walter',
-      lastName: 'White',
-      alias: 'Heisenberg'
-    }
-  }
-})
+		var Profile = Vue.extend({
+			template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+			data: function () {
+				return {
+					firstName: 'Walter',
+					lastName: 'White',
+					alias: 'Heisenberg'
+				}
+			}
+		})
 // 创建 Profile 实例，并挂载到一个元素上。
 new Profile().$mount('#mount-point')
 
 var vm = new Vue({
-  el: '#demo',
-  data: {
-    firstName: 'Foo',
-    lastName: 'Bar'
-  },
-  computed: {
-  	fullName: {
-  		get:function () {
-  			return this.firstName + ' ' + this.lastName
-  		},
-  		set:function(newValue,val){
-  			console.log('newV',newValue,val)
-  			var names = newValue.split(' ')
-  			this.firstName = names[0]
-  			this.lastName = names[names.length - 1]
-  		}
-    }
+	el: '#demo',
+	data: {
+		firstName: 'Foo',
+		lastName: 'Bar',
+		action:[
+		{move:'sleep',keep:8},
+		{move:'reading',keep:2},
+		{move:'work',keep:3},
+		{move:'eating',keep:1.5}
+		],
+		html:'inner html'
+	},
+	filters:{
+		minute:function(val){
+			return val*60
+		}
+	},
+	computed: {
+		orderedAct:function(){
+			return this.action.sort( function(a, b) {
+				if (a.keep > b.keep) {
+					return 1;
+				}
+				if (a.keep < b.keep) {
+					return -1;
+				}
+				return 0;
+			})
+		},
+		fullName:{
+			get:function () {
+				return this.firstName + ' ' + this.lastName
+			},
+			set:function(newValue,val){
+				console.log('newV',newValue,val)
+				var names = newValue.split(' ')
+				this.firstName = names[0]
+				this.lastName = names[names.length - 1]
+			}
+  	}
   }
+
+})
+var minFilter=Vue.filter('minute',function(val){
+	return val*60
+})
+vm.$watch('action',function(newV,oldV){
+	console.log('vals',newV,oldV)
+},{
+	deep:true,
+	immediate:true
 })
 
-	Vue.component('my-component', {
-		template: '<div>A custom component!</div>'
-	})
+Vue.component('my-component', {
+	template: '<div>A custom component!</div>'
+})
 
-	Vue.component('child-componet', {
-		template: `<p>{{ childMessage }}---{{ childMessage2 }}</p>`,
-		props:['childMessage','childMessage2']
-	})
-	Vue.component('test-comp', {
-		template: `<input type="text" v-model='message' />`
-	})
-	var appVue=new Vue({
-		el:'#app',
-		data:{
-			message:'test'
-		},
-		computed:{
-			reversedMsg:function(){
-				return this.message.split('').reverse().join('')
-			}
+Vue.component('child-componet', {
+	template: `<p>{{ childMessage }}---{{ childMessage2 }}</p>`,
+	props:['childMessage','childMessage2']
+})
+Vue.component('test-comp', {
+	template: `<input type="text" v-model='message' />`
+})
+var appVue=new Vue({
+	el:'#app',
+	data:{
+		message:'test'
+	},
+	computed:{
+		reversedMsg:function(){
+			return this.message.split('').reverse().join('')
 		}
-	})
+	}
+})
 
 </script>
 <!-- <div id="example">

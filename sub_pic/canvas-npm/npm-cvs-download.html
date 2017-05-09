@@ -1,0 +1,29 @@
+<html>
+<head></head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    ...
+    <!-- <script src="../../ /download-canvas/src/index.js"></script> -->
+    <script src='../../node_modules/download-canvas/src/index.js'></script>
+    <script>
+        var cvs=document.querySelector('#myCanvas')
+        ctx=cvs.getContext('2d')
+        ctx.fillStyle="#0000ff";
+        ctx.fillRect(0,0,200,200)
+        // ctx.fillcolor
+        downloadCanvas('myCanvas', {
+            name: 'myJPG',
+            type: 'jpg',
+            quality: 0.5
+        });
+
+        downloadCanvas('myCanvas', { 
+            name: 'myPNG',
+            type: 'png',
+            quality: 1
+        });
+        
+        downloadCanvas('myCanvas', {});
+    </script>
+</body>
+</html>

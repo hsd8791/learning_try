@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mixin</title>
+	<script type="text/javascript" src="../vue.js"></script>
+</head>
+<body>
+	<div id="app" @click='hello'>{{msg}}</div>
+	<div id="app2" @click='hello'>{{msg}}</div>
+	<script type="text/javascript">
+		var myMixin = {
+			created: function () {
+				this.hello()
+			},
+
+			methods: {
+				hello: function () {
+					console.log('hello from mixin!',this)
+				}
+			}
+			
+		}
+		var Component = Vue.extend({
+			created:function(){
+				console.log('hello from component')
+			},
+			data:function(){
+				return{
+					msg:'hhh'
+				}
+			},
+			mixins: [myMixin]
+		})
+		var component = new Component() 
+		component.$mount("#app")
+
+		var Component2 = Vue.extend({
+			extends:Component,
+			name:'comp2',
+			data:function(){
+				return{
+					test:'test msg'
+				}
+			}
+		})
+	 	component2 = new Component2()
+		component2.$mount("#app2")
+		var Component3 = Vue.extend({
+			extends:Component2
+		})
+		var component3 = new Component3()
+	</script>
+</body>
+</html>

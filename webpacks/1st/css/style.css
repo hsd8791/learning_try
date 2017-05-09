@@ -1,0 +1,11 @@
+div{
+	color:red;
+	font-size: 30px;
+	transition:1s;
+}
+div:hover{
+	color: yellow;
+}
+div{
+	display: flex;
+}
