@@ -1,22 +1,25 @@
-require('./vue.js')
-window.onload = function() {
-	var appVue = new Vue({
-		el: '#app',
-		data: {
-			infos: [{
-				groupInfo: {
+require(['./vue.js'], function(Vue) {
+	window.onload = function() {
+		var appVue = new Vue({
+			el: '#app',
+			data: {
+				infos: [{
+					groupInfo: {
 
-				},
-				arrgInfo: [{}, {}, {}, {}, {}, {}, {}]
-			}, {
-				groupInfo: {
+					},
+					arrgInfo: [{}, {}, {}, {}, {}, {}, {}]
+				}, {
+					groupInfo: {
 
-				},
-				arrgInfo: [{}, {}, {}, {}, {}, {}, {}]
-			}]
-		}
-	})
-}
+					},
+					arrgInfo: [{}, {}, {}, {}, {}, {}, {}]
+				}, {
+					groupInfo: {
 
-// AMD 写法
-//webpack 如何使用第三方插件？
+					},
+					arrgInfo: [{}, {}, {}, {}, {}, {}, {}]
+				}]
+			}
+		})
+	}
+});
