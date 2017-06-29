@@ -15,7 +15,7 @@ Vue.use(VueRouter)
 	// console.log('Hello', Hello)
 
 export default new VueRouter({
-	mode: 'history',
+	// mode: 'history',
 	routes: [{
 		path: '/',
 		name: 'Hello',

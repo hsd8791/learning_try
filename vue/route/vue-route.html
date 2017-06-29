@@ -44,10 +44,12 @@
 		<router-link to="/users/foo/posts">/users/foo/posts</router-link>
 		<router-link to="/users/dame/posts">/users/dame/posts</router-link>
 		<!-- </div> -->
+		<keep-alive include='test'>
 		<router-view></router-view>
-		<transition :name="fade">
+		</keep-alive>
+		<!-- <transition :name="fade">
 			<router-view name='a'></router-view>
-		</transition>
+		</transition> -->
 	</div>
 	<div id="flag">
 		<button v-on:click='changeFlag'>change</button>
@@ -60,6 +62,7 @@
 	// 1. Define route components.
 	// These can be imported from other files
 	const Foo = {
+		name:'foo test',
 		template: ` <transition name="slide">
 		<div class="foo">我是一个有洞画的fool</div>
 	</transition>`

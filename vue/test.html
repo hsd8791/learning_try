@@ -5,6 +5,9 @@
 </head>
 <body>
 	<div id="demo">
+		<ul>
+		<li v-for='i in testArr' v-if='i||true'>{{i}}</li>
+		</ul>
 		<input type="checkbox" id="checkbox" v-model="checked">
 		<label for="checkbox">{{ checked }}</label>
 
@@ -27,13 +30,16 @@
 		<span>Picked: {{ picked }}</span>
 	</div>
 
+
 	<script>
+
 		var bus = new Vue()
 		var vm=new Vue({
 			el:'#demo',
 			data:{
 				checked:true,
-				checkedNames: []
+				checkedNames: [],
+				testArr:[0,1,2,3,4]
 			}
 		})
 		new Vue({

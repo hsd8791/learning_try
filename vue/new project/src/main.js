@@ -29,7 +29,7 @@ var appVue = new Vue({
 	// }
 })
 
-router.beforeEach((to, from, next) => {
-	console.log('to,beforeEach', to)
-	next()
-})
+// router.beforeEach((to, from, next) => {
+// 	console.log('to,beforeEach', to)
+// 	next()
+// })
