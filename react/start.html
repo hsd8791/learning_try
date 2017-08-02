@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>菜鸟教程 React 实例</title>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <style type='text/css'>
+      .like{
+        color:red;
+      }
+      .unlike{
+        color:blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="example"></div>
+     <div id="example2"></div>
+    <script type="text/babel">
+    var WebSite = React.createClass({
+      render: function() {
+        return (
+
+          <div>
+            <Name name={this.props.name} />
+            <Link site={this.props.site} />
+            <Des name={this.props.name} />
+          </div>
+        );
+      }
+    });
+
+    var Name = React.createClass({
+      render: function() {
+        return (
+          <h1>{this.props.name}</h1>
+        );
+      }
+    });
+
+    var Link = React.createClass({
+      render: function() {
+        return (
+          <a href={this.props.site}>
+            {this.props.site}
+          </a>
+        );
+      }
+    });
+    var Des = React.createClass({
+      render: function(){
+        return (
+          <div>this is description for {this.props.name}</div>
+          )
+      }
+    })
+    ReactDOM.render(
+      <WebSite name="菜鸟教程" site=" http://www.runoob.com" />,
+      document.getElementById('example')
+    );
+
+    var LikeButton = React.createClass({
+
+       getInitialState: function() {
+         return {liked: false};
+       },
+       handleClick: function(event) {
+         this.setState({liked: !this.state.liked});
+       },
+       render: function() {
+         var text = this.state.liked ? '喜欢' : '不喜欢';
+         var style= 'like'
+         return (
+           <p onClick={this.handleClick}>
+             你<b  className="{divStyle}">{text}</b>我。点我切换状态。
+           </p>
+         );
+       }
+     });
+
+     ReactDOM.render(
+       <LikeButton />,
+       document.getElementById('example2')
+     );
+    </script>
+  </body>
+</html>
