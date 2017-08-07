@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title> React try state2</title>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+  	<script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+  	<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+  </head>
+ <body>
+    <div id="root" align="center"></div>
+    <div id="root2"></div>
+    <script type="text/babel">
+      function Clock(props){
+        return (
+          <div>
+            <h1>hello world!</h1>
+           <div> it is {props.date.toLocaleTimeString()}</div>
+          </div>
+          )
+      }
+      function tick(){
+         ReactDOM.render(
+          <Clock date={new Date()}/>,
+          document.getElementById('root')
+          )
+      }
+      setInterval(tick,1000)
+
+      class Clock2 extends React.Component{
+        constructor(props){
+          super(props)
+          this.state={date:new Date(),date2:new Date()}
+        }
+        componentDidMount() {
+          this.timerID = setInterval(
+            () => this.tick(),
+            1000
+          );
+        }
+        tick(){
+          // this.setState({
+          //   date:new Date()
+          // });
+          
+          this.setState((state, props) =>( {
+            date:new Date(),
+            date2:state.date,
+          }))
+        }
+        componentWillUnmount() {
+          clearInterval(this.timerID);
+        }
+        render(){
+          return (
+            <div> 
+              <div> {this.state.date.toLocaleTimeString()}</div>
+              <div> {this.state.date2.toLocaleTimeString()}</div>
+            </div>
+            )
+        }
+      }
+      ReactDOM.render(
+        <Clock2 />,
+        document.getElementById('root2')
+        )
+    </script>
+  </body>
+</html>
